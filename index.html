@@ -3,88 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Story Map: Missing and Murdered Indigenous Women (MMIW)</title>
+    <title>Story Map: Missing and Murdered Indigenous Women - Focus on British Columbia</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
-        #container { max-width: 1200px; margin: 0 auto; }
-        section { padding: 40px 20px; margin: 20px 0; background: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1, h2 { color: #8B0000; } /* Dark red for awareness */
-        #map { height: 400px; margin: 20px 0; border: 1px solid #ccc; border-radius: 4px; }
-        .story-popup { max-width: 200px; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #1a1a1a; color: #ddd; }
+        #container { display: flex; max-width: 1400px; margin: 0 auto; height: 100vh; }
+        #sidebar { width: 350px; background: #2a2a2a; overflow-y: auto; padding: 20px; box-shadow: 2px 0 10px rgba(0,0,0,0.5); }
+        #sidebar h1 { color: #ff4444; margin-top: 0; }
+        #sidebar h2 { color: #ff6666; cursor: pointer; border-bottom: 1px solid #444; padding-bottom: 5px; }
+        #sidebar h2:hover { color: #ff8888; }
+        .details { display: none; margin: 10px 0; padding: 10px; background: #333; border-radius: 4px; }
+        .details.active { display: block; }
+        #map { flex: 1; height: 100vh; border: none; }
+        .story-popup { max-width: 250px; background: #2a2a2a; color: #ddd; }
         ul { list-style-type: none; padding: 0; }
-        li { margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 4px solid #8B0000; }
-        a { color: #8B0000; text-decoration: none; }
+        li { margin: 10px 0; padding: 10px; background: #3a3a3a; border-left: 4px solid #ff4444; border-radius: 0 4px 4px 0; }
+        a { color: #ff6666; text-decoration: none; }
         a:hover { text-decoration: underline; }
+        #main-content { flex: 1; padding: 20px; overflow-y: auto; }
+        section { margin: 20px 0; background: #2a2a2a; padding: 20px; border-radius: 8px; }
+        @media (max-width: 768px) { #container { flex-direction: column; } #sidebar { width: 100%; height: auto; } #map { height: 50vh; } }
     </style>
 </head>
 <body>
     <div id="container">
-        <section id="intro">
-            <h1>The Silent Crisis: Missing and Murdered Indigenous Women</h1>
-            <p>The MMIW crisis is a form of gender-based violence rooted in colonialism, where Indigenous women face homicide rates up to six times higher than non-Indigenous women. In the U.S., over 5,700 reports of missing Native women were logged in 2016 alone, yet many go underreported due to jurisdictional gaps on tribal lands. This isn't isolated—it's genocide, as declared by Canada's 2019 National Inquiry.</p>
-            <p><em>Image placeholder: Red shoes or dresses symbolizing the lost.</em></p>
-            <p>Let's honor their stories by mapping the places they were last seen.</p>
-        </section>
+        <div id="sidebar">
+            <h1>Chapters: Stories from the Highway of Tears & Beyond</h1>
+            <p>Click a chapter to explore. Focus on British Columbia's crisis, with over 40 estimated cases along Highway 16.</p>
+            <h2 onclick="toggleDetails('tina')">Tina Fontaine (Winnipeg, MB, 2014)</h2>
+            <div id="tina" class="details">
+                <p><strong>Age:</strong> 15 | <strong>Status:</strong> Homicide | <strong>Location:</strong> Red River, Winnipeg.</p>
+                <p>An Anishinaabe girl from Sagkeeng First Nation, Tina was failed by child welfare systems. Last seen leaving a shelter, her body was found wrapped in plastic after days in the river. Her death ignited national outrage, leading to "Drag the Red" searches and calls for MMIWG inquiry. The accused was acquitted, highlighting justice gaps. Family: "She was a bubbly girl who loved to dance."</p>
+                <p><em>Source: National Inquiry Report.</em></p>
+            </div>
 
-        <section id="history">
-            <h2>Historical Roots: From Colonialism to "Lands of Impunity"</h2>
-            <p>Generations of trauma from residential schools and policies like the Major Crimes Act have created "lands of impunity" where non-Native perpetrators often evade justice—67% of assaults on Native women involve non-Native offenders. In Canada, the Highway of Tears (BC's Highway 16) has claimed at least 19 lives since 1969, many hitchhikers ignored by police.</p>
-            <p><em>Quote: "This is race, identity, and gender-based genocide." – National Inquiry Report.</em></p>
-        </section>
+            <h2 onclick="toggleDetails('helen')">Helen Claire Frost (Prince George, BC, 1970)</h2>
+            <div id="helen" class="details">
+                <p><strong>Age:</strong> 17 | <strong>Status:</strong> Missing | <strong>Location:</strong> Prince George, Highway of Tears.</p>
+                <p>Indigenous teen from the Lake Babine Nation, Helen left home on October 20, 1970, to visit friends. Family reported her missing the next day, but police dismissed it as a runaway. No leads since; her case is one of the earliest on the Highway of Tears, symbolizing decades of neglect. Family continues annual vigils.</p>
+                <p><em>Recent: Part of RCMP's 18 acknowledged cases.</em></p>
+            </div>
 
-        <section id="stories">
-            <h2>Their Stories: Voices on the Map</h2>
-            <p>Behind the stats are daughters, mothers, and warriors. Explore the map below for key cases.</p>
-            <div id="map"></div>
-            <ul>
-                <li><strong>Tina Fontaine, 15 (Winnipeg, Manitoba, 2014)</strong>: An Anishinaabe girl found in the Red River, wrapped in plastic—her death sparked "Drag the Red" searches. Last seen after child welfare involvement; killer acquitted despite evidence.</li>
-                <li><strong>Olivia Lone Bear (North Dakota, 2017)</strong>: Blackfeet Nation member whose body was found in a submerged car nine months after vanishing. Ruled suspicious, but no arrests—family questions the investigation.</li>
-                <li><strong>Stacy Hill, 17 (Red Lake Indian Reservation, Minnesota, 2009)</strong>: Ojibwe teen found murdered after a night out; case stalled due to limited resources on the rez.</li>
-                <li><strong>Pepita Redhair, 27 (Albuquerque, New Mexico, 2020)</strong>: Navajo woman feared trafficked; last seen leaving a shelter. Family pleads for tips amid urban Indigenous vulnerabilities.</li>
-                <li><strong>Ashley Loring HeavyRunner (Blackfeet Nation, Montana, 2017)</strong>: Advocated for MMIW before disappearing; her case exposed FBI delays in rural searches.</li>
-                <li><strong>Jermain Charlo (Missoula, Montana, 2018)</strong>: Salish woman vanished after a night out; podcast "Stolen" details cross-jurisdictional hurdles.</li>
-                <li><strong>Highway of Tears (British Columbia, Canada)</strong>: A 719-km corridor where at least 18 Indigenous women have been murdered or gone missing since 1969.</li>
-            </ul>
-            <p><em>For more cases, draw from CBC's Case Explorer (250+ unsolved in Canada) or BIA lists.</em></p>
-        </section>
+            <h2 onclick="toggleDetails('jean')">Jean Virginia Sampare (Gitsegukla, BC, 1971)</h2>
+            <div id="jean" class="details">
+                <p><strong>Age:</strong> 18 | <strong>Status:</strong> Missing | <strong>Location:</strong> Gitsegukla, near Highway 16.</p>
+                <p>From the Gitxsan Nation, Jean vanished on October 14, 1971, while chatting with her cousin by the Skeena River. She went to retrieve a jacket and never returned. Police speculated suicide or runaway, but family insists foul play. Her case spurred early advocacy; remains unfound.</p>
+                <p><em>Impact: Inspired the Highway of Tears Symposium in 2006.</em></p>
+            </div>
 
-        <section id="action">
-            <h2>Call to Action: Healing and Change</h2>
-            <p>Support starts locally: Contact the Missing and Murdered Unit (BIA) or join marches like Walk 4 Justice. Demand better data via Savanna's Act and amplify #MMIW. Resources: <a href="https://www.uihi.org/mmiw-database-overview/" target="_blank">UIHI Database</a> for U.S. cases; <a href="https://www.nwac.ca/" target="_blank">NWAC</a> for Canada.</p>
-            <p><em>End with hope: Embed a video of Indigenous women leading healing circles.</em></p>
-        </section>
+            <h2 onclick="toggleDetails('monica')">Monica Ignas (Thornhill, BC, 1974)</h2>
+            <div id="monica" class="details">
+                <p><strong>Age:</strong> 14 | <strong>Status:</strong> Homicide | <strong>Location:</strong> Thornhill, near Terrace.</p>
+                <p>Tsilhqot'in Nation girl, Monica disappeared December 13, 1974, after school. Her strangled body was found in April 1975 in a forested area off Highway 16. Witnesses reported a suspicious car, but investigation stalled. Unsolved; family faced racism in police response.</p>
+                <p><em>Update: Featured in ongoing E-Pana project for serial cases.</em></p>
+            </div>
+
+            <h2 onclick="toggleDetails('ramona')">Ramona Lisa Wilson (Smithers, BC, 1994)</h2>
+            <div id="ramona" class="details">
+                <p><strong>Age:</strong> 16 | <strong>Status:</strong> Homicide | <strong>Location:</strong> Smithers, Highway 16.</p>
+                <p>Wet'suwet'en Nation teen hitchhiking to a festival on June 8, 1994. Remains found April 1995 in a forested ditch. Unsolved despite DNA; family hosts annual memorial walks. Ramona dreamed of becoming a hairdresser.</p>
+                <p><em>Advocacy: Her story in "Finding Ramona" documentary.</em></p>
+            </div>
+
+            <h2 onclick="toggleDetails('delphine')">Delphine Anne Camelia Nikal (Smithers, BC, 1990)</h2>
+            <div id="delphine" class="details">
+                <p><strong>Age:</strong> 15 | <strong>Status:</strong> Missing (Remains found 2022) | <strong>Location:</strong> Smithers.</p>
+                <p>From the Tsay Keh Dene Nation, Delphine hitchhiked home from a party on June 29, 1990. Human remains linked to her were found in 2022 near Prince George, but cause of death undetermined. Cousin of Cecilia Nikal (also missing). Case highlights jurisdictional issues.</p>
+                <p><em>Recent: RCMP confirmation in 2022; family seeks full closure.</em></p>
+            </div>
+
+            <h2 onclick="toggleDetails('alberta')">Alberta Gail Williams (Prince Rupert, BC, 1989)</h2>
+            <div id="alberta" class="details">
+                <p><strong>Age:</strong> 24 | <strong>Status:</strong> Homicide | <strong>Location:</strong> Prince Rupert, east of city.</p>
+                <p>Tsimshian Nation mother of two, last seen August 25, 1989, after a night out. Strangled and sexually assaulted body found days later off Highway 16. Unsolved; part of E-Pana serial killer investigation. Family: "She was loving and full of life."</p>
+                <p><em>Update: DNA evidence pursued in 2020s.</em></p>
+            </div>
+
+            <h2 onclick="toggleDetails('tamara')">Tamara Lynn Chipman (Prince George, BC, 1998)</h2>
+            <div id="tamara" class="details">
+                <p><strong>Age:</strong> 22 | <strong>Status:</strong> Missing | <strong>Location:</strong> Prince George.</p>
+                <p>Wet'suwet'en and Cree woman, Tamara vanished September 21, 1998, while hitchhiking. Struggled with addiction; last seen entering a truck. Unsolved; her son advocates today. Case exemplifies urban-rural vulnerabilities on the Highway.</p>
+                <p><em>Recent: Featured in 2025 billboards by Carrier Sekani Family Services.</em></p>
+            </div>
+
+            <h2 onclick="toggleDetails('aielah')">Aielah Saric Auger (Prince George, BC, 2008)</h2>
+            <div id="aielah" class="details">
+                <p><strong>Age:</strong> 15 | <strong>Status:</strong> Homicide | <strong>Location:</strong> Near Prince George.</p>
+                <p>St'át'imc Nation teen, Aielah went missing February 14, 2008. Remains found October 2008 in woods off Highway 97 (linked to Tears). Cause: undetermined homicide. Police criticized for slow response; family pushed for inquiry.</p>
+                <p><em>Impact: Sparked BC's MMIWG action plan.</em></p>
+            </div>
+
+            <h2 onclick="toggleDetails('initiatives')">Initiatives & Updates (BC Focus)</h2>
+            <div id="initiatives" class="details">
+                <p>In 2025, families and Carrier Sekani Family Services unveiled four new billboards honoring victims along Highway 16. BC invested $75M in cell coverage expansion (550+ km by 2027) to aid safety. Tears to Hope Society provides education; 33 recommendations from 2006 Symposium remain key. Over 40 cases estimated; RCMP lists 18 unsolved.</p>
+                <p><a href="https://highwayoftears.org/" target="_blank">Learn More: Highway of Tears Initiative</a></p>
+            </div>
+        </div>
+
+        <div id="main-content">
+            <section id="intro">
+                <h1>The Silent Crisis: Focus on British Columbia's Highway of Tears</h1>
+                <p>The Highway of Tears, a 719-km stretch of Highway 16 from Prince George to Prince Rupert, has seen at least 18 confirmed cases of missing and murdered Indigenous women since 1969 (RCMP), with families estimating over 40. Rooted in colonialism, inadequate policing, and isolation, this epidemic reflects broader MMIWG genocide. Recent 2025 updates include new memorials and infrastructure investments, but justice lags.</p>
+                <p><em>Symbol: Red dresses hang along the route in remembrance.</em></p>
+                <p>Explore chapters on the left for stories; click markers on the map to navigate.</p>
+            </section>
+        </div>
+
+        <div id="map"></div>
     </div>
 
     <script>
-        // Initialize the map
-        const map = L.map('map').setView([50, -100], 4); // Center on North America
+        // Initialize the map with dark theme
+        const map = L.map('map').setView([54.5, -126], 7); // Center on BC
 
-        // Add OpenStreetMap tile layer
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // Dark tile layer from CartoDB
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a> | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Add markers with popups
-        const markers = [
-            { coords: [49.895077, -97.138451], title: 'Tina Fontaine', desc: 'Anishinaabe girl found in the Red River, 2014.' },
-            { coords: [47.7392, -102.2732], title: 'Olivia Lone Bear', desc: 'Body found in submerged car, Fort Berthold, 2017.' },
-            { coords: [48.1530, -95.1013], title: 'Stacy Hill', desc: 'Murdered after night out, Red Lake, 2009.' },
-            { coords: [35.106766, -106.629181], title: 'Pepita Redhair', desc: 'Feared trafficked, Albuquerque, 2020.' },
-            { coords: [48.7561, -113.0198], title: 'Ashley Loring HeavyRunner', desc: 'Advocated for MMIW, Blackfeet Nation, 2017.' },
-            { coords: [46.8787, -113.9966], title: 'Jermain Charlo', desc: 'Vanished after night out, Missoula, 2018.' },
-            { coords: [53.9171, -122.7497], title: 'Highway of Tears', desc: '719-km corridor of disappearances since 1969.' }
+        // Markers with extended data and links to chapters
+        const markersData = [
+            { id: 'tina', coords: [49.895077, -97.138451], title: 'Tina Fontaine', desc: 'Iconic case sparking national inquiry.', color: '#ff4444' },
+            { id: 'helen', coords: [53.9171, -122.7497], title: 'Helen Frost', desc: 'Earliest known HotT disappearance.', color: '#ff6666' },
+            { id: 'jean', coords: [55.25, -127.63], title: 'Jean Sampare', desc: 'Vanished by Skeena River.', color: '#ff8888' },
+            { id: 'monica', coords: [54.52, -128.52], title: 'Monica Ignas', desc: 'Strangled; body in forest.', color: '#ffaaaa' },
+            { id: 'ramona', coords: [54.78, -127.17], title: 'Ramona Wilson', desc: 'Hitchhiking to festival.', color: '#ff4444' },
+            { id: 'delphine', coords: [54.78, -127.17], title: 'Delphine Nikal', desc: 'Remains found 2022.', color: '#ff6666' },
+            { id: 'alberta', coords: [54.31, -130.32], title: 'Alberta Williams', desc: 'Strangled near Prince Rupert.', color: '#ff8888' },
+            { id: 'tamara', coords: [53.9171, -122.7497], title: 'Tamara Chipman', desc: 'Hitchhiking in Prince George.', color: '#ffaaaa' },
+            { id: 'aielah', coords: [53.9171, -122.7497], title: 'Aielah Saric Auger', desc: 'Teen found in woods off Hwy 97.', color: '#ff4444' }
         ];
 
-        markers.forEach(marker => {
-            L.marker(marker.coords).addTo(map)
-                .bindPopup(`<div class="story-popup"><strong>${marker.title}</strong><br>${marker.desc}</div>`);
+        const markers = [];
+        markersData.forEach(data => {
+            const marker = L.marker(data.coords).addTo(map);
+            marker.bindPopup(`<div class="story-popup"><strong>${data.title}</strong><br>${data.desc}<br><a href="#" onclick="scrollToChapter('${data.id}')">Read Full Story</a></div>`);
+            marker.on('click', () => scrollToChapter(data.id));
+            markers.push(marker);
         });
 
-        // Fit bounds to show all markers
-        const group = new L.featureGroup(markers.map(m => L.marker(m.coords)));
-        map.fitBounds(group.getBounds());
+        // Fit bounds to BC markers (exclude Tina for zoom)
+        const bcGroup = new L.featureGroup(markers.slice(1));
+        map.fitBounds(bcGroup.getBounds().pad(0.1));
+
+        // Sidebar functions
+        function toggleDetails(id) {
+            const details = document.getElementById(id);
+            const isActive = details.classList.contains('active');
+            // Close all
+            document.querySelectorAll('.details').forEach(d => d.classList.remove('active'));
+            // Toggle this one if closed
+            if (!isActive) {
+                details.classList.add('active');
+                details.scrollIntoView({ behavior: 'smooth' });
+                // Zoom map to marker
+                const markerData = markersData.find(m => m.id === id);
+                if (markerData) map.setView(markerData.coords, 12);
+            }
+        }
+
+        function scrollToChapter(id) {
+            const chapter = document.querySelector(`#${id}`);
+            if (chapter) {
+                chapter.scrollIntoView({ behavior: 'smooth' });
+                toggleDetails(id); // Expand it
+            }
+        }
+
+        // Initial open for first chapter
+        document.addEventListener('DOMContentLoaded', () => toggleDetails('helen'));
     </script>
 </body>
 </html>
